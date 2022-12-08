@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "32380559822",
+    "project_id": "scholarship-69389",
+    "storage_bucket": "scholarship-69389.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32380559822:android:d9f484bdf9376507944b9f",
+        "android_client_info": {
+          "package_name": "com.example.scholarship_flutter_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32380559822-n63kkdsce9d4358esjle5l91q2kb1h47.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmFaxPqzmfDWNEB82v29Gam63OpZNBcQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "32380559822-n63kkdsce9d4358esjle5l91q2kb1h47.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
