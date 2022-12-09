@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:scholarship_flutter_application/provider/user_provider.dart';
+import 'package:scholarship_flutter_application/resources/auth_methods.dart';
 
 import 'package:scholarship_flutter_application/screens/add_post_screen.dart';
+import 'package:scholarship_flutter_application/screens/login_screen.dart';
 import 'package:scholarship_flutter_application/utils/colors.dart';
 
 import 'package:provider/provider.dart';
@@ -23,10 +25,12 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  var role;
   @override
   void initState() {
     super.initState();
     adddata();
+    getRole();
   }
 
   void adddata() async {
@@ -34,20 +38,20 @@ class _FeedScreenState extends State<FeedScreen> {
     await _userprovider.refreshuser();
   }
 
+  void getRole() async {
+    var usersnap = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .get();
+    setState(() {
+      role = usersnap['role'].toString();
+      print(role);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var role;
-    void getRole() async {
-      var usersnap = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid)
-          .get();
-      role = usersnap['role'];
-      print(role);
-    }
-
-    getRole();
-
+   
     return Scaffold(
       appBar: AppBar(
           backgroundColor: mobileBackgroundColor,
@@ -67,25 +71,35 @@ class _FeedScreenState extends State<FeedScreen> {
                 MaterialPageRoute(builder: (context) => const SearchScreen())),
           ),
           actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfileScreen(
-                            uid: FirebaseAuth.instance.currentUser!.uid)));
-                print(FirebaseAuth.instance.currentUser!.uid);
-              },
-              icon: const Icon(Icons.person),
-            ),
-            (role!="Sponsor")?IconButton(
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AddPostScreen())),
-              icon: const Icon(Icons.add_circle_outline),
-            ):Text(""),
-
+            (role.toString() == "Sponsor")
+                ? (IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileScreen(
+                                  uid:
+                                      FirebaseAuth.instance.currentUser!.uid)));
+                    },
+                    icon: const Icon(Icons.person),
+                  ))
+                : (IconButton(
+                    onPressed: () async {
+                      await auth_methods().signout();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const Loginscreen()));
+                    },
+                    icon: const Icon(Icons.logout_outlined),
+                  )),
+            (role.toString() == "Sponsor")
+                ? IconButton(
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AddPostScreen())),
+                    icon: const Icon(Icons.add_circle_outline),
+                  )
+                : Text(""),
           ]),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('posts').snapshots(),

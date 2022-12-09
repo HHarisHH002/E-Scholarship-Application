@@ -24,10 +24,22 @@ class PostCard extends StatefulWidget {
 class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
   int commentlen = 0;
+  var role;
   @override
   void initState() {
     super.initState();
     getcomment();
+    getRole();
+  }
+
+  void getRole() async {
+    var usersnap = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .get();
+    setState(() {
+      role = usersnap['role'].toString();
+    });
   }
 
   void getcomment() async {
@@ -49,18 +61,6 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     final UserDetails user = Provider.of<UserProvider>(context).getuser;
 
-    var role;
-    void getRole() async {
-      var usersnap = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid)
-          .get();
-      role = usersnap['role'];
-      print(role);
-    }
-
-    getRole();
-    print(role);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: mobileBackgroundColor),
@@ -91,7 +91,7 @@ class _PostCardState extends State<PostCard> {
                   ],
                 ),
               )),
-              IconButton(
+              (role.toString() == "Sponsor")?(IconButton(
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -119,7 +119,7 @@ class _PostCardState extends State<PostCard> {
                               ),
                             ));
                   },
-                  icon: const Icon(Icons.more_vert)),
+                  icon: const Icon(Icons.more_vert))):Text(""),
             ]),
           ),
           GestureDetector(
@@ -187,12 +187,12 @@ class _PostCardState extends State<PostCard> {
                     Icons.comment_bank_outlined,
                   )),
               IconButton(onPressed: () {}, icon: const Icon(Icons.send)),
-              (role == "Sponsor")
+              (role.toString() == "Student")
                   ? Expanded(
                       child: Align(
                           alignment: Alignment.bottomRight,
                           child: ElevatedButton(
-                              child: Text(
+                              child: const Text(
                                 'Apply',
                                 style: TextStyle(fontSize: 13),
                               ),
