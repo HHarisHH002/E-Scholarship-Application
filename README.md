@@ -5,12 +5,12 @@ E-Scholarship application, providing students with an intuitive platform to expl
 
 ## Login Screen
 
-![alt_text](screenshots/loginscreen.jpeg)
+<img src="screenshots/loginscreen.jpeg" width="300">
 
 ## Home Screen
 
-![alt_text](screenshots/homescreen.jpeg)
+<img src="screenshots/homescreen.jpeg" width="300">
 
 ## Application Form
 
-![alt_text](screenshots/application.jpeg)
+<img src="screenshots/application.jpeg" width="300">
