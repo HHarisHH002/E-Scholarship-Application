@@ -5,12 +5,18 @@ E-Scholarship application, providing students with an intuitive platform to expl
 
 ## Login Screen
 
+<div align="center">
 <img src="screenshots/loginscreen.jpeg" width="300">
+</div>
 
 ## Home Screen
 
+<div align="center">
 <img src="screenshots/homescreen.jpeg" width="300">
+</div>
 
 ## Application Form
 
+<div align="center">
 <img src="screenshots/application.jpeg" width="300">
+</div>
